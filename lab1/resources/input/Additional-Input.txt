@@ -5,5 +5,3 @@
 +ABCD
 *+A/-B^CD+E*F
 +&PQ*RS
-
-

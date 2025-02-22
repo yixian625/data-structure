@@ -55,6 +55,11 @@ While in the lab1 folder, run the package from the command line using:
 python -m lab1 <input_file> <output_file> [--perf <performance_file>]
 ```
 
+## Development Environment
+
+- python version: 3.13
+- PyCharm 2024.1.4 (Community Edition)
+
 ## Author
 
 Project Maintainer: Yixian Li
