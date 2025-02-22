@@ -1,5 +1,7 @@
-.venv
 proj0/
+.venv*
 *.pyc
 _pycache_
 .idea
+*.ipynb
+.temp/
