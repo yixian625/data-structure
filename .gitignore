@@ -1,0 +1,5 @@
+.venv
+proj0/
+*.pyc
+_pycache_
+.idea
