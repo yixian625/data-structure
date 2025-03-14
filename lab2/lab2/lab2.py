@@ -2,35 +2,8 @@
 # to postfix notation. It relies on stack-based processing and calls
 # various utility functions for text processing, validation, and performance tracking.
 
-from lab2.utils.measures import get_performance
-from lab2.utils.recursions import recur_tree
+from lab2.utils.recursions import *
 import sys
-
-
-@get_performance
-def recur_pre_to_post(node):
-
-    """
-    Given the binary tree for the input prefix, traverse the tree
-    and return the postfix expression of the input
-    :param node: the root node of the binary tree
-    :return: postfix expression
-    """
-
-    if node.type == 'opd':
-        return node.item
-    else:
-        left_opd = recur_pre_to_post(node.left_child)
-        right_opd = recur_pre_to_post(node.right_child)
-
-        # when @get_performance is applied, function returns a tuple
-        # extract the postfix (first item in tuple)
-        if isinstance(left_opd, tuple):
-            left_opd = left_opd[0]
-        if isinstance(right_opd, tuple):
-            right_opd = right_opd[0]
-
-        return left_opd + right_opd + node.item
 
 
 def process_file(input_path, output_path, perf_path=None):
@@ -57,9 +30,12 @@ def process_file(input_path, output_path, perf_path=None):
             tree_root_node, char_count = recur_tree(iter(line))
 
             # convert to prefix & get performance
-            postfix, status, time_used, memory_used = recur_pre_to_post(tree_root_node)
-            output_file.write(f"{line} | {postfix} \n")
-            performance_tracking.append((char_count, time_used, memory_used, status, line))
+            postfix, status, time_used, memory_used = recur_conversion(tree_root_node, "in")
+
+            # create clean prefix (without trailing spaces) to write in output
+            original_input, _, _, _ = recur_conversion(tree_root_node, "pre")
+            output_file.write(f"{original_input} | {postfix} \n")
+            performance_tracking.append((char_count, time_used, memory_used, status, original_input))
 
         # if all lines have been skipped for being empty, raise error
         if len(performance_tracking) == 0:
