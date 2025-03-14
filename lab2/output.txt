@@ -1,0 +1,8 @@
+Input | Output 
+------------------------------
+-+*ABC/EF
+ | AB*C+EF/- 
+-+ABC | AB+C- 
+
+Total  0.056 ms and  0.000 KB of memory used to process the input the size of 14 characters.
+averaging  0.004 ms and  0.000 KB of memory used per character of input.
