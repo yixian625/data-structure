@@ -3,7 +3,7 @@
 from lab2.NodeClass import TreeNode
 
 
-def recur_tree(iterator):
+def recur_tree(iterator) -> TreeNode:
     """
     Build a binary tree for input prefix. Track the number of characters processed.
     :param iterator: the iterator of the input string.
@@ -34,7 +34,7 @@ def recur_tree(iterator):
     return root
 
 
-def recur_conversion(node, to_mode='post'):
+def recur_conversion(node, to_mode='post') -> str:
 
     """
     Given the binary tree for the input prefix, traverse the tree
@@ -61,7 +61,7 @@ def recur_conversion(node, to_mode='post'):
         return new
 
 
-def recur_get_num_nodes(root, count=0):
+def recur_get_num_nodes(root, count=0) -> int:
 
     """
     Counts the number of nodes in the tree by recursively following
