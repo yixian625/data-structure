@@ -2,9 +2,9 @@
 
 ## Description
 
-A command-line tool for converting prefix expressions to postfix notation using stack-based processing. 
-It reads expressions from an input file, processes them, and writes the results to an output file. 
-Optionally, performance metrics for each input string can be recorded. It supports:
+A command-line tool for converting prefix expressions to postfix or infix notation using recursive functions. 
+It reads expressions from an input file, processes them, and writes the results to an output file. The default output format is postfix, but the user can optionally ask for infix outputs.
+There is also an option to document the performance metrics for each input string. It supports:
 
 - Batch Processing: read multiple expressions from an input file.
 - Performance Tracking: measure execution time and peak memory usage for each string processed.
@@ -13,14 +13,15 @@ Optionally, performance metrics for each input string can be recorded. It suppor
 ## Input file format
 
 Input strings need to be passed in with a .txt file. Each line of the input file contains one prefix to process.
-- The characters that can be processed include digits, alphabets, and the following symbols: +, -, *, /, $, ^
+- The characters that can be processed include alphabets and the following symbols: +, -, *, /, $, ^
 - The symbol "^" will be automatically converted to "$", the default symbol for exponential in this package.
-- A number needs to be separated with a blank space if followed by another number. e.g., 2 33, otherwise the algorithm will consider the digits as belonging to the same number.
 
 ## Output file
 
 The output file contains each input string being process and its corresponding output. If an error raised during processing, the error will appear as the output.
 Summary statistics are saved to the end of the output file, reporting the total and average time and peak memory used to process the input strings.
+
+The default output expression is postfix, but the user can use the -f or --format flag with *in* as the parameter to get infix expression as output.
 
 ## Performance tracking (optional)
 
@@ -44,15 +45,20 @@ Alternatively you can clone the repository with
 
 ```
 git clone https://github.com/yixian625/data-structure
-cd your-repo/lab1
+cd your-repo/lab2
 ```
 
 ## Execution
 
-While in the lab1 folder, run the package from the command line using:
+While in the lab2 folder, run the package from the command line using:
 
+### For getting postfix as output
 ```
-python -m lab1 <input_file> <output_file> [--perf <performance_file>]
+python -m lab2 <input_file> <output_file> [--perf <performance_file>]
+```
+### for getting infix as output
+```
+python -m lab2 <input_file> <output_file> [--format in] [--perf <performance_file>]
 ```
 
 ## Development Environment
