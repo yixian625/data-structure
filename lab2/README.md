@@ -1,4 +1,4 @@
-# Prefix-to-Postfix Converter
+# Prefix-to-Postfix/Infix Converter
 
 ## Description
 
