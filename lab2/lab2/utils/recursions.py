@@ -1,3 +1,5 @@
+# This module contains recursive functions to build the tree,
+# traverse the tree, and count the number of nodes int the tree.
 from lab2.NodeClass import TreeNode
 
 
@@ -32,13 +34,13 @@ def recur_tree(iterator):
     return root
 
 
-def recur_conversion(node, to_mode = 'post'):
+def recur_conversion(node, to_mode='post'):
 
     """
     Given the binary tree for the input prefix, traverse the tree
     and return the postfix expression of the input
     :param node: the root node of the binary tree
-    :param to_mode: which expression to return based on the tree, pre, in, or post
+    :param to_mode: which expression to return based on the tree: in, or post
     :return: postfix expression
     """
 
@@ -59,7 +61,15 @@ def recur_conversion(node, to_mode = 'post'):
         return new
 
 
-def recur_get_num_nodes(root, count = 0):
+def recur_get_num_nodes(root, count=0):
+
+    """
+    Counts the number of nodes in the tree by recursively following
+    the left and child pointers.
+    :param root: the root node of a tree
+    :param count: count tracking, starting from 0
+    :return: the total number of nodes in a tree
+    """
 
     count += 1
 

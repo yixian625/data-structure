@@ -1,6 +1,7 @@
 # This module contains the main logic for converting a prefix expression
-# to postfix notation. It relies on stack-based processing and calls
-# various utility functions for text processing, validation, and performance tracking.
+# to postfix/infix notation. It uses the recursive call build a binary tree from the input,
+# then recursively traverse the tree to make the conversion.
+# Tracks the performance both for time and peak memory used when processing each line of the file.
 
 from lab2.utils.recursions import *
 from lab2.utils.preprocessing import get_stripped_line
