@@ -5,6 +5,8 @@
 from lab2.utils.recursions import *
 from lab2.utils.preprocessing import get_stripped_line
 import sys
+import time
+import tracemalloc
 
 
 def process_file(input_path, output_path, out_format, perf_path=None):
@@ -33,12 +35,13 @@ def process_file(input_path, output_path, out_format, perf_path=None):
             if clean_line is None: # skip empty lines
                 continue
 
-            time_used = 0
-            memory_used = 0
+            # start tracking memory/time used
+            start = time.time()
+            tracemalloc.start()
 
             # create binary tree for the input
             try:
-                tree_root_node, tree_time, tree_memory = recur_tree(iter(clean_line))
+                tree_root_node = recur_tree(iter(clean_line))
             except Exception as e:
                 convert_res = f"{str(e)}"
                 status = "Error"
@@ -52,16 +55,19 @@ def process_file(input_path, output_path, out_format, perf_path=None):
                     status = "Error"
                 else:
                     # convert & get performance
-                    # over-write the default 0 for time and memory used
                     if out_format == 'in':
-                        convert_res, time_used, memory_used = recur_conversion(tree_root_node, "in")
+                        convert_res = recur_conversion(tree_root_node, "in")
                     else:
-                        convert_res, time_used, memory_used = recur_conversion(tree_root_node, "post")
+                        convert_res = recur_conversion(tree_root_node, "post")
                     status = "Success"
 
-            # include time and memory used in building the tree
-            time_used += tree_time
-            memory_used += memory_used
+            # end time/memory tracking
+            end = time.time()
+            current_memory, peak_memory = tracemalloc.get_traced_memory()
+            tracemalloc.stop()
+
+            time_used = (end - start)*1000
+            memory_used = peak_memory/1024
 
             output_file.write(f"{clean_line} | {convert_res} \n")
             performance_tracking.append((char_count, time_used, memory_used, status, clean_line))
@@ -86,4 +92,4 @@ def process_file(input_path, output_path, out_format, perf_path=None):
         with perf_path.open('w') as perf_file:
             perf_file.write("Line | Input Size (# chars) | Time (ms) | Memory (KB) | Completion Status\n")
             for input_size, time_used, memory_used, status, input_string in performance_tracking:
-                perf_file.write(f"{input_string} | {input_size} | {time_used:.3f} | {memory_used:.3f} | {status}\n")
+                perf_file.write(f"{input_string} | {input_size} | {time_used:.3f} | {memory_used: .3f} | {status}\n")
