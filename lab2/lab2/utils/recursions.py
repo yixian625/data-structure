@@ -16,8 +16,6 @@ def recur_tree(iterator):
     try:
         item = next(iterator)
 
-        print(item)
-
         if item in {" ", "\n", "\t", "\r", "\xa0"}:  # remove empty and trailing spaces
             item = next(iterator)
 

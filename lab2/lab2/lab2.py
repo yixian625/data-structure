@@ -7,13 +7,14 @@ from lab2.utils.preprocessing import get_stripped_line
 import sys
 
 
-def process_file(input_path, output_path, perf_path=None):
+def process_file(input_path, output_path, out_format, perf_path=None):
     """
     Function to run the program start to finish. Read from the input file,
     execute the conversion, save results to output path, and optionally save
     the performance metrics if path provided.
     :param input_path: input file path
     :param output_path: output file path
+    :param out_format: whether to convert the output to infix or postfix
     :param perf_path: performance file path (optional)
     :return: None
     """
@@ -29,28 +30,38 @@ def process_file(input_path, output_path, perf_path=None):
 
             clean_line, char_count = get_stripped_line(line)
 
+            if clean_line is None: # skip empty lines
+                continue
+
+            time_used = 0
+            memory_used = 0
+
             # create binary tree for the input
             try:
-                tree_root_node, tree_time, tree_memory = recur_tree(iter(line))
+                tree_root_node, tree_time, tree_memory = recur_tree(iter(clean_line))
             except Exception as e:
                 convert_res = f"{str(e)}"
-                time_used = tree_time
-                memory_used = tree_memory
                 status = "Error"
             else:
+                # check how many nodes are stored in the tree
+                # if there are too many operands, the tree won't save all of them
+                # this is a flag for incorrect prefix input
                 tree_node_recount = recur_get_num_nodes(tree_root_node)
-                print(f"recount tree nodes #: {tree_node_recount}")
                 if tree_node_recount != char_count:
                     convert_res = "Error: too few operators."
                     status = "Error"
                 else:
                     # convert & get performance
-                    convert_res, time_used, memory_used = recur_conversion(tree_root_node, "in")
+                    # over-write the default 0 for time and memory used
+                    if out_format == 'in':
+                        convert_res, time_used, memory_used = recur_conversion(tree_root_node, "in")
+                    else:
+                        convert_res, time_used, memory_used = recur_conversion(tree_root_node, "post")
                     status = "Success"
-                # include time and memory used in building the tree
-                time_used += tree_time
-                memory_used += memory_used
 
+            # include time and memory used in building the tree
+            time_used += tree_time
+            memory_used += memory_used
 
             output_file.write(f"{clean_line} | {convert_res} \n")
             performance_tracking.append((char_count, time_used, memory_used, status, clean_line))
@@ -61,7 +72,7 @@ def process_file(input_path, output_path, perf_path=None):
             sys.exit(1)
 
         # get summary stats for entire input file
-        total_size = sum(s for s, _, _, _, _ in performance_tracking if s is not None)
+        total_size = sum(s for s, _, _, _, _ in performance_tracking)
         total_time = sum(t for _, t, _, _, _ in performance_tracking)
         total_memory = sum(m for _, _, m, _, _ in performance_tracking)
 
