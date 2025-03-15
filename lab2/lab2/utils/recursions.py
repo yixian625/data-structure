@@ -2,38 +2,43 @@ from lab2.NodeClass import TreeNode
 from lab2.utils.measures import get_performance
 
 
-def recur_tree(iterator, char_count=0):
+# :param char_count: count for characters processed, starting from 0.
+
+
+@get_performance
+def recur_tree(iterator):
     """
     Build a binary tree for input prefix. Track the number of characters processed.
     :param iterator: the iterator of the input string.
-    :param char_count: count for characters processed, starting from 0.
     :return: the root pointer for the binary tree, and the character counts in the input string.
     """
 
     try:
         item = next(iterator)
-        char_count += 1
+
+        print(item)
 
         if item in {" ", "\n", "\t", "\r", "\xa0"}:  # remove empty and trailing spaces
             item = next(iterator)
-            char_count += 1
 
         root = TreeNode(item)
 
     except StopIteration:
-        raise ValueError("Empty input string")
+        raise ValueError("Error: too many operators.")
 
     if root.type == 'opd':
-        return root, char_count
+        return root
 
     else:
-        root.left_child, char_count = recur_tree(iterator, char_count)
+        # when @get_performance is applied, function returns a tuple
+        # extract the function results (first item in tuple)
+        root.left_child = recur_tree(iterator)[0]
         root.left_child.parent = root
 
-        root.right_child, char_count = recur_tree(iterator, char_count)
+        root.right_child = recur_tree(iterator)[0]
         root.right_child.parent = root
 
-    return root, char_count
+    return root
 
 
 @get_performance
@@ -55,10 +60,8 @@ def recur_conversion(node, to_mode = 'post'):
 
         # when @get_performance is applied, function returns a tuple
         # extract the postfix (first item in tuple)
-        if isinstance(left_opd, tuple):
-            left_opd = left_opd[0]
-        if isinstance(right_opd, tuple):
-            right_opd = right_opd[0]
+        left_opd = left_opd[0]
+        right_opd = right_opd[0]
 
         # determine the return expression based on the to_mode parameter
         if to_mode == 'post':
@@ -69,6 +72,24 @@ def recur_conversion(node, to_mode = 'post'):
             new = "(" + left_opd + node.item + right_opd + ")"
 
         return new
+
+
+def recur_get_num_nodes(root, count = 0):
+
+    count += 1
+
+    # the binary tree must be complete so if there's no
+    # left child, it must be a leaf
+    if root.left_child is None:
+        return count
+
+    else:
+        count = recur_get_num_nodes(root.left_child, count)
+        count = recur_get_num_nodes(root.right_child, count)
+
+    return count
+
+
 
 
 

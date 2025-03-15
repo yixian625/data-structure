@@ -15,9 +15,10 @@ class TreeNode:
     def _get_char_type(self):
         if self.item == "^":
             self.item = "$"
-        if self.item.isalpha() or self.item.isdigit():
+        if self.item.isalpha():
             return 'opd'
         elif self.item in {"/", "*", "$", "+", "-"}:
             return 'op'
         else:
-            raise ValueError("wrong input char")
+            raise ValueError("Error: wrong input char")
+

@@ -21,25 +21,13 @@ def get_performance(func):
     def wrapper(*args, **kwargs):
         start = time.time()
         tracemalloc.start()
+        results = func(*args, **kwargs)
+        end = time.time()
 
-        # avoid doing try except again in driver
-        try:
-            result = func(*args, **kwargs)
-            status = "Success"
+        # only wants to know the max memory used during a call
+        _, peak_memory = tracemalloc.get_traced_memory()
+        tracemalloc.stop()
 
-        except Exception as e:
-            # want to return any error message if function fails
-            result = f"Error: {str(e)}"
-            status = "Error"
-
-        # capture time & memory regardless of function error
-        finally:
-            end = time.time()
-            # only wants to know the max memory used during a call
-            _, peak_memory = tracemalloc.get_traced_memory()
-            tracemalloc.stop()
-
-        # returning results and time in ms, memory used in KB
-        return result, status, (end - start) * 1000, peak_memory / 1024
+        return results, (end - start) * 1000, peak_memory / 1024
 
     return wrapper

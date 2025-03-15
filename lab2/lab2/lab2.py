@@ -3,6 +3,7 @@
 # various utility functions for text processing, validation, and performance tracking.
 
 from lab2.utils.recursions import *
+from lab2.utils.preprocessing import get_stripped_line
 import sys
 
 
@@ -26,16 +27,33 @@ def process_file(input_path, output_path, perf_path=None):
 
         for line in input_file:
 
+            clean_line, char_count = get_stripped_line(line)
+
             # create binary tree for the input
-            tree_root_node, char_count = recur_tree(iter(line))
+            try:
+                tree_root_node, tree_time, tree_memory = recur_tree(iter(line))
+            except Exception as e:
+                convert_res = f"{str(e)}"
+                time_used = tree_time
+                memory_used = tree_memory
+                status = "Error"
+            else:
+                tree_node_recount = recur_get_num_nodes(tree_root_node)
+                print(f"recount tree nodes #: {tree_node_recount}")
+                if tree_node_recount != char_count:
+                    convert_res = "Error: too few operators."
+                    status = "Error"
+                else:
+                    # convert & get performance
+                    convert_res, time_used, memory_used = recur_conversion(tree_root_node, "in")
+                    status = "Success"
+                # include time and memory used in building the tree
+                time_used += tree_time
+                memory_used += memory_used
 
-            # convert to prefix & get performance
-            postfix, status, time_used, memory_used = recur_conversion(tree_root_node, "in")
 
-            # create clean prefix (without trailing spaces) to write in output
-            original_input, _, _, _ = recur_conversion(tree_root_node, "pre")
-            output_file.write(f"{original_input} | {postfix} \n")
-            performance_tracking.append((char_count, time_used, memory_used, status, original_input))
+            output_file.write(f"{clean_line} | {convert_res} \n")
+            performance_tracking.append((char_count, time_used, memory_used, status, clean_line))
 
         # if all lines have been skipped for being empty, raise error
         if len(performance_tracking) == 0:
@@ -43,7 +61,7 @@ def process_file(input_path, output_path, perf_path=None):
             sys.exit(1)
 
         # get summary stats for entire input file
-        total_size = sum(s for s, _, _, _, _ in performance_tracking)
+        total_size = sum(s for s, _, _, _, _ in performance_tracking if s is not None)
         total_time = sum(t for _, t, _, _, _ in performance_tracking)
         total_memory = sum(m for _, _, m, _, _ in performance_tracking)
 
