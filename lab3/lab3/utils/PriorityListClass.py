@@ -1,5 +1,5 @@
 # a priority class that help sort the nodes based on their priority,
-# sort the list using merge sort when new items are inserted into the list
+# sort the list using merge sort when new items are inserted into the list.
 
 from lab3.utils.NodeClass import TreeNode
 

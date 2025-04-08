@@ -1,6 +1,5 @@
 # This module contains the class for the Node instances of the binary tree,
-# implemented as a linked list
-
+# implemented as a linked list.
 
 class TreeNode:
 
