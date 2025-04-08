@@ -1,3 +1,0 @@
-Line | Input Size (# chars) | Time (ms) | Memory (KB) | Completion Status
--+*ABC/EF | 9 | 0.064 | 0.000 | Success
--+ABC | 5 | 0.004 | 0.000 | Success
