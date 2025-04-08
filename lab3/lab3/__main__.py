@@ -6,8 +6,8 @@
 from pathlib import Path
 import argparse
 import sys
-
-from lab3.lab3 import process_file
+#
+# from lab3.lab3 import process_file
 
 # Argument parser is an amazing tool. It's worth mastering
 arg_parser = argparse.ArgumentParser()

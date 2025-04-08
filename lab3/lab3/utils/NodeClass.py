@@ -10,4 +10,7 @@ class TreeNode:
         self.left_child = None
         self.right_child = None
 
+    def __repr__(self):
+        return f"Node(item={self.item}, freq={self.freq})"
+
 
