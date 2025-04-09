@@ -9,6 +9,58 @@ import sys
 import time
 import tracemalloc
 
+from lab3.utils.NodeClass import TreeNode
+from lab3.utils.PriorityListClass import PriorityArray
+from lab3.utils.TreeFunctions import preorder_traverse
+
+
+def process_file(freq_table_file, tree_map_file):
+
+    """
+
+    :param freq_table_file:
+    :return:
+    """
+
+    with freq_table_file.open('r') as freq_table:
+
+        # initialize an array to store nodes based on priority
+        priority_array = PriorityArray()
+
+        # use the priority array to store and sort the nodes
+        for line in freq_table:
+            content = line.split(" - ")
+            node = TreeNode(char = content[0], freq=int(content[1].strip()))
+            priority_array.insert(node)
+
+        priority_array.sort()
+
+        # build the Huffman encoding tree by merging different nodes
+        while len(priority_array) > 1:
+
+            left_node = priority_array.pop_first()
+            right_node = priority_array.pop_first()
+            merged_node = left_node + right_node
+
+            # put the new merged node back to the priority array to
+            # keep track of its new priority
+            priority_array.insert(merged_node)
+            priority_array.sort()
+
+        final_root = priority_array.nodes[0]
+
+        # get the traverse the tree in preorder and save the map
+        tree_map = preorder_traverse(final_root)
+
+        with tree_map_file.open('w') as tree_file:
+            tree_file.write(tree_map)
+
+
+
+
+
+
+
 
 
 
