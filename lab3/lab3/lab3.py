@@ -14,7 +14,8 @@ from lab3.utils.PriorityListClass import PriorityArray
 from lab3.utils.TreeFunctions import preorder_traverse, get_letter_code
 
 
-def process_file(freq_table_file, tree_map_file, to_encode_file):
+def process_file(freq_table_file, tree_map_file, to_encode_file,
+                 encode_res_file):
 
     """
 
@@ -59,7 +60,18 @@ def process_file(freq_table_file, tree_map_file, to_encode_file):
             for char in final_root.item:
                 tree_file.write(f"{char}: {get_letter_code(final_root, char)} \n")
 
-        # encode the input text message
+    # encode the input text message
+    with to_encode_file.open('r') as encode_input, encode_res_file.open('w') as encode_output:
+
+        for line in encode_input:
+            print(line)
+            encode_res = ''
+            for char in line:
+                if char.isalpha():
+                    encode_res = encode_res + get_letter_code(final_root, char.upper())
+            encode_output.write(f"Original Message: {line.strip()}\n")
+            encode_output.write(encode_res)
+            encode_output.write("\n\n")
 
 
 

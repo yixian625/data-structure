@@ -12,7 +12,9 @@ from lab3.lab3 import process_file
 # Argument parser is an amazing tool. It's worth mastering
 arg_parser = argparse.ArgumentParser()
 arg_parser.add_argument("freq_table", type=str, help="Frequency Table File Pathname")
+arg_parser.add_argument("to_encode_file", type=str, help="File Pathname for Texts to Encode")
 arg_parser.add_argument("tree_map", type=str, help="Huffman Encoding Tree Map File Pathname")
+arg_parser.add_argument("encode_result", type=str, help="File Pathname to store the encoding results")
 
 # # Optional argument for saving performance tracking file
 # arg_parser.add_argument("-p", "--perf", type=str, help="Performance File Pathname")
@@ -28,7 +30,9 @@ args = arg_parser.parse_args()
 # pathlib.Path is also a fantastic built in tool and has a lot of great
 # features. Please look it up! I promise it's worth it.
 freq_table_path = Path(args.freq_table)
+to_encode_path = Path(args.to_encode_file)
 tree_map_path = Path(args.tree_map)
+encode_res_path = Path(args.encode_result)
 # perf_path = Path(args.perf) if args.perf else None
 # out_format = args.format
 
@@ -36,7 +40,8 @@ if not freq_table_path.exists():
     print(f"No {args.freq_table} exists. Please choose another input file.")
     sys.exit(1)
 
-process_file(freq_table_file=freq_table_path, tree_map_file=tree_map_path)
+process_file(freq_table_file=freq_table_path, to_encode_file=to_encode_path, tree_map_file=tree_map_path,
+             encode_res_file=encode_res_path)
 
 
 # process_file(input_path=in_path, output_path=out_path, out_format = out_format, perf_path=perf_path)
