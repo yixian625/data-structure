@@ -11,10 +11,10 @@ import tracemalloc
 
 from lab3.utils.NodeClass import TreeNode
 from lab3.utils.PriorityListClass import PriorityArray
-from lab3.utils.TreeFunctions import preorder_traverse
+from lab3.utils.TreeFunctions import preorder_traverse, get_letter_code
 
 
-def process_file(freq_table_file, tree_map_file):
+def process_file(freq_table_file, tree_map_file, to_encode_file):
 
     """
 
@@ -53,7 +53,13 @@ def process_file(freq_table_file, tree_map_file):
         tree_map = preorder_traverse(final_root)
 
         with tree_map_file.open('w') as tree_file:
+            tree_file.write("Huffman Encoding Tree in Preorder:\n")
             tree_file.write(tree_map)
+            tree_file.write("\n\nEncoding for each character: \n")
+            for char in final_root.item:
+                tree_file.write(f"{char}: {get_letter_code(final_root, char)} \n")
+
+        # encode the input text message
 
 
 
