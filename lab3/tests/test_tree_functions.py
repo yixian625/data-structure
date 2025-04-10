@@ -36,6 +36,12 @@ class MyTestCase(unittest.TestCase):
         expected_map = f"ABC:68 A:27 BC:41 B:20 C:21 "
         self.assertEqual(tree_map, expected_map)
 
+    def test_decoding(self):
+        root = self.test_array.nodes[0]
+        digits = '11010'
+        expected = 'CAB'
+        self.assertEqual(expected, get_decoded_letter(root, digits))
+
 
 if __name__ == '__main__':
     unittest.main()

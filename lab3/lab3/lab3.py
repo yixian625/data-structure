@@ -3,24 +3,21 @@
 # then recursively traverse the tree to make the conversion.
 # Tracks the performance both for time and peak memory used when processing each line of the file.
 
-#from lab3.utils.recursions import *
-#from lab3.utils.preprocessing import get_stripped_line
+
 import sys
 import time
 import tracemalloc
 
 from lab3.utils.NodeClass import TreeNode
 from lab3.utils.PriorityListClass import PriorityArray
-from lab3.utils.TreeFunctions import preorder_traverse, get_letter_code
+from lab3.utils.TreeFunctions import preorder_traverse, get_letter_code, get_decoded_letter
 
 
-def process_file(freq_table_file, tree_map_file, to_encode_file,
-                 encode_res_file):
+def process_file(freq_table_file, to_encode_file, to_decode_file,
+                 tree_map_file, encode_res_file, decode_res_file):
 
     """
 
-    :param freq_table_file:
-    :return:
     """
 
     with freq_table_file.open('r') as freq_table:
@@ -31,7 +28,7 @@ def process_file(freq_table_file, tree_map_file, to_encode_file,
         # use the priority array to store and sort the nodes
         for line in freq_table:
             content = line.split(" - ")
-            node = TreeNode(char = content[0], freq=int(content[1].strip()))
+            node = TreeNode(char=content[0], freq=int(content[1].strip()))
             priority_array.insert(node)
 
         priority_array.sort()
@@ -64,14 +61,26 @@ def process_file(freq_table_file, tree_map_file, to_encode_file,
     with to_encode_file.open('r') as encode_input, encode_res_file.open('w') as encode_output:
 
         for line in encode_input:
-            print(line)
             encode_res = ''
             for char in line:
                 if char.isalpha():
                     encode_res = encode_res + get_letter_code(final_root, char.upper())
             encode_output.write(f"Original Message: {line.strip()}\n")
-            encode_output.write(encode_res)
+            encode_output.write(f"Encrypted Message: {encode_res}")
             encode_output.write("\n\n")
+
+    # decode the encrypted message
+    with to_decode_file.open('r') as decode_input, decode_res_file.open('w') as decode_output:
+
+        for line in decode_input:
+            print(line)
+            decode_res = get_decoded_letter(final_root, line.strip())
+            print(decode_res)
+            decode_output.write(f"Original Encrypted Message: {line}")
+            decode_output.write(f"Decoded Message: {decode_res}")
+            decode_output.write("\n\n")
+
+
 
 
 
