@@ -95,11 +95,16 @@ def process_file(source_file, to_encode_file, to_decode_file,
 
         for line in encode_input:
             encode_res = ''
-            for char in line:
+            for char in line.strip():
                 if char.isalpha():
                     encode_res = encode_res + get_letter_code(final_root, char.upper())
             encode_output.write(f"Original Message: {line.strip()}\n")
-            encode_output.write(f"Encrypted Message: {encode_res}")
+            encode_output.write(f"Encrypted Message: {encode_res}\n")
+            original_size = len(line.strip().encode("utf-8"))
+            compressed_size = len(encode_res)//8  # packed into bytes
+            encode_output.write(f'Original size: {original_size} bytes. '
+                                f'Encrypted size (packed in bytes): {compressed_size} bytes. '
+                                f'Compressed to {compressed_size/original_size: .0%} of original size.')
             encode_output.write("\n\n")
 
     # decode the encrypted message
