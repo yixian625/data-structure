@@ -62,11 +62,6 @@ def get_decoded_letter(node, input_digits) -> str:
     while index < len(input_digits):
         # Traverse down the tree until a leaf node is reached
         while cur_node.left_child is not None:
-            print(cur_node)
-            print(index)
-            print(input_digits[index])
-            print(decode_res)
-
             if input_digits[index] == '0':
                 cur_node = cur_node.left_child
             else:

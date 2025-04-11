@@ -3,7 +3,6 @@
 
 from lab3.utils.NodeClass import TreeNode
 
-
 class PriorityArray:
 
     def __init__(self):

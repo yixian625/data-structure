@@ -15,11 +15,8 @@ def create_freq_table(text_file):
 
     for line in text_file:
         for char in line:
-            #print(char.isalpha())
             if char.isalpha():
-                print("is alpha")
                 char_index = ord(char.upper()) - 65
-                print(f"char_index: {char_index}")
                 freq_array[char_index] += 1
 
     return freq_array
