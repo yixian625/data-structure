@@ -11,26 +11,59 @@ import tracemalloc
 from lab3.utils.NodeClass import TreeNode
 from lab3.utils.PriorityListClass import PriorityArray
 from lab3.utils.TreeFunctions import preorder_traverse, get_letter_code, get_decoded_letter
+from lab3.utils.TableCreater import detect_table, create_freq_table
 
 
-def process_file(freq_table_file, to_encode_file, to_decode_file,
+def process_file(source_file, to_encode_file, to_decode_file,
                  tree_map_file, encode_res_file, decode_res_file):
 
     """
 
+    :param source_file:
+    :param to_encode_file:
+    :param to_decode_file:
+    :param tree_map_file:
+    :param encode_res_file:
+    :param decode_res_file:
+    :return:
     """
 
-    with freq_table_file.open('r') as freq_table:
+    with source_file.open('r', encoding="utf-8") as source:
 
         # initialize an array to store nodes based on priority
         priority_array = PriorityArray()
 
-        # use the priority array to store and sort the nodes
-        for line in freq_table:
-            content = line.split(" - ")
-            node = TreeNode(char=content[0], freq=int(content[1].strip()))
-            priority_array.insert(node)
+        # determine whether a freq table or source text has been passed as input
+        source_file_type = detect_table(source)
 
+        # process the frequencies if it's a table
+        if source_file_type == "Table":
+            for line in source:
+                content = line.strip().split(" - ")
+                if content[0].isalpha() and content[1].isdigit():
+                    node = TreeNode(char=content[0], freq=int(content[1]))
+                    priority_array.insert(node)
+                else:
+                    print("Your frequency table is not in the right format. Please follow the following \
+                           example: \"A - 10\"")
+                    sys.exit(1)
+
+        # build the freq table if the input is a source text
+        elif source_file_type == "Text":
+            freq_array = create_freq_table(source)
+            # because the frequencies are saved in the same order as alphabets
+            # and the upper-case letters starts from ascii 65, the actual letter is i+65 in ascii
+            for i in range(len(freq_array)):
+                # check if there are letters not represented in the source text
+                if freq_array[i] == 0:
+                    print(f"Your source text doesn't contain all letters. "
+                          f"There is no {chr(i+65)} in the file. Please change a source.")
+                    sys.exit(1)
+                else:
+                    node = TreeNode(char=chr(i+65), freq=freq_array[i])
+                    priority_array.insert(node)
+
+        # sort all nodes based on priority
         priority_array.sort()
 
         # build the Huffman encoding tree by merging different nodes
@@ -73,35 +106,14 @@ def process_file(freq_table_file, to_encode_file, to_decode_file,
     with to_decode_file.open('r') as decode_input, decode_res_file.open('w') as decode_output:
 
         for line in decode_input:
-            print(line)
-            decode_res = get_decoded_letter(final_root, line.strip())
-            print(decode_res)
-            decode_output.write(f"Original Encrypted Message: {line}")
-            decode_output.write(f"Decoded Message: {decode_res}")
-            decode_output.write("\n\n")
+            try:
+                decode_res = get_decoded_letter(final_root, line.strip())
+            except IndexError as e:
+                print ("The encoded message doesn't match with the frequency table, please table check the source file."
+                       "A decoded file cannot be generate.")
+                sys.exit(1)
+            else:
+                decode_output.write(f"Original Encrypted Message: {line.strip()}")
+                decode_output.write(f"Decoded Message: \n{decode_res}")
+                decode_output.write("\n\n")
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-# def process_file(input_path, output_path, out_format, perf_path=None):
-#     """
-#     Function to run the program start to finish. Read from the input file,
-#     execute the conversion, save results to output path, and optionally save
-#     the performance metrics if path provided.
-#     :param input_path: input file path
-#     :param output_path: output file path
-#     :param out_format: whether to convert the output to infix or postfix
-#     :param perf_path: performance file path (optional)
-#     :return: None
-#     """
-#
