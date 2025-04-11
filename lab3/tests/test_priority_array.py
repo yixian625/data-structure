@@ -4,43 +4,32 @@ import unittest
 from lab3.utils.NodeClass import TreeNode
 from lab3.utils.PriorityListClass import PriorityArray
 
+
 class MyTestCase(unittest.TestCase):
 
-    def test_sorting(self):
+    def setUp(self):
         node = TreeNode('A', 27)
         node2 = TreeNode('B', 20)
         node3 = TreeNode("C", 21)
 
-        test_array = PriorityArray()
-        test_array.insert(node)
-        test_array.insert(node2)
-        test_array.insert(node3)
+        self.test_array = PriorityArray()
+        self.test_array.insert(node)
+        self.test_array.insert(node2)
+        self.test_array.insert(node3)
 
-        # test insertion and sort
-        test_array.sort()
+        self.test_array.sort()
 
+    def test_sorting(self):
         expected_items = ["B", "C", "A"]
-        array_items = [n.item for n in test_array.nodes]
+        array_items = [n.item for n in self.test_array.nodes]
 
         self.assertEqual(expected_items, array_items)
-    #
+
     def test_pop(self):
-        node = TreeNode('A', 27)
-        node2 = TreeNode('B', 20)
-        node3 = TreeNode("C", 21)
-
-        test_array = PriorityArray()
-        test_array.insert(node)
-        test_array.insert(node2)
-        test_array.insert(node3)
-
-        test_array.sort()
-
-        n = test_array.pop_first()
+        n = self.test_array.pop_first()
         self.assertEqual(n.item,'B')
-
         expected_items = ["C", "A"]
-        array_items = [n.item for n in test_array.nodes]
+        array_items = [n.item for n in self.test_array.nodes]
         self.assertEqual(expected_items, array_items)
 
     def test_ties(self):
