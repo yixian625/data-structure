@@ -1,8 +1,8 @@
 # unittests
 
 import unittest
-from lab3.utils.NodeClass import TreeNode
-from lab3.utils.PriorityListClass import PriorityArray
+from lab3.DS.NodeClass import TreeNode
+from lab3.DS.PriorityListClass import PriorityArray
 
 
 class MyTestCase(unittest.TestCase):
