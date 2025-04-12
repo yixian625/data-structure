@@ -1,12 +1,8 @@
 # This module contains the main logic for generating a Huffman encoding tree from either a frequency table
 # or a source text file, then uses this encoding to decode encrypted messages or encode plain text.
 
-
 import sys
-from lab3.utils.NodeClass import TreeNode
-from lab3.utils.PriorityListClass import PriorityArray
-from lab3.utils.TreeFunctions import preorder_traverse, get_letter_code, get_decoded_letter
-from lab3.utils.TableCreater import detect_table, create_freq_table
+from lab3.utils.HuffmanTreeClass import HuffmanTree
 
 
 def process_file(source_file, to_encode_file, to_decode_file,
@@ -27,65 +23,22 @@ def process_file(source_file, to_encode_file, to_decode_file,
 
     with source_file.open('r', encoding="utf-8") as source:
 
-        # initialize an array to store nodes based on priority
-        priority_array = PriorityArray()
+        # initiate a tree class
+        huffman_tree = HuffmanTree()
+        # build the priority array class to store the frequencies for all letters
+        huffman_tree.build_priority_array(source)
+        # build the huffman encoding tree
+        huffman_tree.build_huffman_encoding_tree()
 
-        # determine whether a freq table or source text has been passed as input
-        source_file_type = detect_table(source)
-
-        # process the frequencies if it's a table
-        if source_file_type == "Table":
-            for line in source:
-                content = line.strip().split(" - ")
-                if content[0].isalpha() and content[1].isdigit():
-                    node = TreeNode(char=content[0], freq=int(content[1]))
-                    priority_array.insert(node)
-                else:
-                    print("Your frequency table is not in the right format. Please follow the following \
-                           example: \"A - 10\"")
-                    sys.exit(1)
-
-        # build the freq table if the input is a source text
-        elif source_file_type == "Text":
-            freq_array = create_freq_table(source)
-            # because the frequencies are saved in the same order as alphabets
-            # and the upper-case letters starts from ascii 65, the actual letter is i+65 in ascii
-            for i in range(len(freq_array)):
-                # check if there are letters not represented in the source text
-                if freq_array[i] == 0:
-                    print(f"Your source text doesn't contain all letters. "
-                          f"There is no {chr(i+65)} in the file. Please change a source.")
-                    sys.exit(1)
-                else:
-                    node = TreeNode(char=chr(i+65), freq=freq_array[i])
-                    priority_array.insert(node)
-
-        # sort all nodes based on priority
-        priority_array.sort()
-
-        # build the Huffman encoding tree by merging different nodes
-        while len(priority_array) > 1:
-
-            left_node = priority_array.pop_first()
-            right_node = priority_array.pop_first()
-            merged_node = left_node + right_node
-
-            # put the new merged node back to the priority array to
-            # keep track of its new priority
-            priority_array.insert(merged_node)
-            priority_array.sort()
-
-        final_root = priority_array.nodes[0]
-
-        # get the traverse the tree in preorder and save the map
-        tree_map = preorder_traverse(final_root)
+        # traverse the tree in preorder and save the map
+        tree_map = HuffmanTree.preorder_traverse(huffman_tree.tree_root)
 
         with tree_map_file.open('w') as tree_file:
             tree_file.write("Huffman Encoding Tree in Preorder:\n")
             tree_file.write(tree_map)
             tree_file.write("\n\nEncoding for each character: \n")
-            for char in final_root.item:
-                tree_file.write(f"{char}: {get_letter_code(final_root, char)} \n")
+            for char in huffman_tree.tree_root.item:
+                tree_file.write(f"{char}: {huffman_tree.get_letter_code(char)} \n")
 
     # encode the input text message
     with to_encode_file.open('r', encoding='utf-8') as encode_input, encode_res_file.open('w', encoding='utf-8') as \
@@ -95,7 +48,7 @@ def process_file(source_file, to_encode_file, to_decode_file,
             encode_res = ''
             for char in line.strip():
                 if char.isalpha():
-                    encode_res = encode_res + get_letter_code(final_root, char.upper())
+                    encode_res = encode_res + huffman_tree.get_letter_code(char.upper())
             encode_output.write(f"Original Message: {line.strip()}\n")
             encode_output.write(f"Encrypted Message: {encode_res}\n")
             original_size = len(line.strip().encode("utf-8"))
@@ -110,7 +63,7 @@ def process_file(source_file, to_encode_file, to_decode_file,
 
         for line in decode_input:
             try:
-                decode_res = get_decoded_letter(final_root, line.strip())
+                decode_res = huffman_tree.get_decoded_letter(line.strip())
             except IndexError as e:
                 print ("The encoded message doesn't match with the frequency table, please table check the source file."
                        "A decoded file cannot be generate.")
