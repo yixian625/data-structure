@@ -26,14 +26,30 @@ class HuffmanTree:
 
         # process the frequencies if it's a table
         if source_file_type == "Table":
+            existing_letter = []
             for line in source:
                 content = line.strip().split(" - ")
-                if content[0].isalpha() and content[1].isdigit():
-                    node = TreeNode(char=content[0], freq=int(content[1]))
-                    priority_array.insert(node)
+                char = content[0].upper()
+                freq = content[1]
+                if char.isalpha() and freq.isdigit():
+                    # if the letter has already appeared in the table earlier, raise error
+                    if char in existing_letter:
+                        raise ValueError(f"There are repeated entry for {char} in the frequency table. Please fix it and"
+                                         f"try again")
+                    else:
+                        existing_letter.append(char)
+                        node = TreeNode(char=char, freq=freq)
+                        priority_array.insert(node)
                 else:
                     raise ValueError("Your frequency table is not in the right format. Please follow the following \
                            example: \"A - 10\"")
+
+            # check if not all letters are represented in teh frequency table
+            if len(existing_letter) < 26:
+                raise ValueError(f"Your frequency table is missing at least one alphabet. Please fix it and"
+                                 f"try again")
+
+
                     # sys.exit(1)
 
         # build the freq table if the input is a source text

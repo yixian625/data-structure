@@ -25,10 +25,20 @@ def process_file(source_file, to_encode_file, to_decode_file,
 
         # initiate a tree class
         huffman_tree = HuffmanTree()
-        # build the priority array class to store the frequencies for all letters
-        huffman_tree.build_priority_array(source)
+
+        # build the priority array to store the frequencies for all letters
+        try:
+            huffman_tree.build_priority_array(source)
+        except IndexError as e:
+            print(f"Error: {e}")
+            sys.exit(1)
+
         # build the huffman encoding tree
-        huffman_tree.build_huffman_encoding_tree()
+        try:
+            huffman_tree.build_huffman_encoding_tree()
+        except ValueError as e:
+            print(f"Error: {e}")
+            sys.exit(1)
 
         # traverse the tree in preorder and save the map
         tree_map = HuffmanTree.preorder_traverse(huffman_tree.tree_root)
