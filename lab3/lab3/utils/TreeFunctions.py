@@ -1,4 +1,4 @@
-# helper funcitons to read and traverse the trees
+# This module contains helper functions to read and traverse the trees
 
 from lab3.utils.PriorityListClass import PriorityArray
 from lab3.utils.NodeClass import TreeNode
@@ -8,8 +8,8 @@ def preorder_traverse(node: TreeNode) -> str:
     """
     Takes the root node of the Huffman encoding tree and print
     out the encoding with recursive calls.
-    :param node:
-    :return:
+    :param node: the root node of a tree/subtree
+    :return: a string describing the tree structure (node item:item frequency) in preorder
     """
     # base case -
     # strict binary tree, if no left_child, there's no right child either
@@ -62,11 +62,6 @@ def get_decoded_letter(node, input_digits) -> str:
     while index < len(input_digits):
         # Traverse down the tree until a leaf node is reached
         while cur_node.left_child is not None:
-            print(cur_node)
-            print(index)
-            print(input_digits[index])
-            print(decode_res)
-
             if input_digits[index] == '0':
                 cur_node = cur_node.left_child
             else:
