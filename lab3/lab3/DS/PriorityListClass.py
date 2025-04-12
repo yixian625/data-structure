@@ -1,7 +1,8 @@
 # This module contains a priority class that helps store and sort the nodes based on their priority.
 # Sorting is implemented with merge sort.
 
-from lab3.utils.NodeClass import TreeNode
+from lab3.DS.NodeClass import TreeNode
+
 
 class PriorityArray:
 

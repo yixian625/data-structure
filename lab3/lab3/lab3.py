@@ -2,7 +2,7 @@
 # or a source text file, then uses this encoding to decode encrypted messages or encode plain text.
 
 import sys
-from lab3.utils.HuffmanTreeClass import HuffmanTree
+from lab3.DS.HuffmanTreeClass import HuffmanTree
 
 
 def process_file(source_file, to_encode_file, to_decode_file,
