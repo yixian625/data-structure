@@ -1,13 +1,8 @@
-# This module contains the main logic for converting a prefix expression
-# to postfix/infix notation. It uses the recursive call build a binary tree from the input,
-# then recursively traverse the tree to make the conversion.
-# Tracks the performance both for time and peak memory used when processing each line of the file.
+# This module contains the main logic for generating a Huffman encoding tree from either a frequency table
+# or a source text file, then uses this encoding to decode encrypted messages or encode plain text.
 
 
 import sys
-import time
-import tracemalloc
-
 from lab3.utils.NodeClass import TreeNode
 from lab3.utils.PriorityListClass import PriorityArray
 from lab3.utils.TreeFunctions import preorder_traverse, get_letter_code, get_decoded_letter
@@ -18,14 +13,16 @@ def process_file(source_file, to_encode_file, to_decode_file,
                  tree_map_file, encode_res_file, decode_res_file):
 
     """
-
-    :param source_file:
-    :param to_encode_file:
-    :param to_decode_file:
-    :param tree_map_file:
-    :param encode_res_file:
-    :param decode_res_file:
-    :return:
+    Takes the source file and generates a Huffman encoding tree. Use the generated
+    tree to encode plain text messages and decode binary encryptions encoded using
+    the same Huffman encoding tree.
+    :param source_file: either a frequency table or a source text to generate frequency table from
+    :param to_encode_file: plain text file to encode using the generated Huffman encoding tree
+    :param to_decode_file: encrypted messages to decode. Must be encoded using the same Huffman encoding tree
+    :param tree_map_file: file name to save the generated Huffman encoding tree to
+    :param encode_res_file: file name to save the result for encoding the plain text input
+    :param decode_res_file: file name to save the result for decoding the encrypted messages
+    :return: None. The function saves the results directly to the corresponding output files
     """
 
     with source_file.open('r', encoding="utf-8") as source:

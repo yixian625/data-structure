@@ -1,7 +1,8 @@
-# a priority class that help sort the nodes based on their priority,
-# sort the list using merge sort when new items are inserted into the list.
+# This module contains a priority class that helps store and sort the nodes based on their priority.
+# Sorting is implemented with merge sort.
 
 from lab3.utils.NodeClass import TreeNode
+
 
 class PriorityArray:
 
@@ -47,7 +48,7 @@ class PriorityArray:
 
     @staticmethod
     def _merge(left, right):
-        sorted_list=[]
+        sorted_list = []
         # start pointers
         i = j = 0
 

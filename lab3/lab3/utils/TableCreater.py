@@ -1,11 +1,11 @@
-# functions to help create a frequency table from an input file
+# functions to help create a frequency table from an input source file
 
 
 def create_freq_table(text_file):
 
     """
-    store the frequencies for each letter in a list
-    the index of the letter is its ascii order - 65
+    Stores the frequencies for each letter in a list.
+    The index for the frequency of a letter is the letter's ascii order - 65,
     so that 0 is A and 25 is Z.
     :param text_file: source to create freq table from
     :return: the list of frequencies for all letters from A to Z contained in the source text

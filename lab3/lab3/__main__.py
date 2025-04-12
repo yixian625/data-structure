@@ -18,15 +18,6 @@ arg_parser.add_argument("tree_map", type=str, help="Huffman Encoding Tree Map Fi
 arg_parser.add_argument("encode_result", type=str, help="File Pathname to Store the Encoded Results")
 arg_parser.add_argument("decode_result", type=str, help="File Pathname to Store the Decoded Results")
 
-# # Optional argument for saving performance tracking file
-# arg_parser.add_argument("-p", "--perf", type=str, help="Performance File Pathname")
-#
-# # Optional argument for converting to infix instead of postfix
-# arg_parser.add_argument("-f", "--format", choices= ['in', 'post'],
-#                         default='post',
-#                         help=f"Which format the output takes ('in' for infix or 'post' for postfix)."
-#                              f"Default to postfix.")
-
 args = arg_parser.parse_args()
 
 # pathlib.Path is also a fantastic built in tool and has a lot of great
@@ -37,8 +28,6 @@ to_decode_path = Path(args.to_decode_file)
 tree_map_path = Path(args.tree_map)
 encode_res_path = Path(args.encode_result)
 decode_res_path = Path(args.decode_result)
-# perf_path = Path(args.perf) if args.perf else None
-# out_format = args.format
 
 if not source_file_path.exists():
     print(f"No {args.source_file} exists. Please choose another input file.")
@@ -48,4 +37,3 @@ process_file(source_file=source_file_path, to_encode_file=to_encode_path, to_dec
              tree_map_file=tree_map_path, encode_res_file=encode_res_path, decode_res_file=decode_res_path)
 
 
-# process_file(input_path=in_path, output_path=out_path, out_format = out_format, perf_path=perf_path)
