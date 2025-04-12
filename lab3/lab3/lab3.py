@@ -91,7 +91,8 @@ def process_file(source_file, to_encode_file, to_decode_file,
                 tree_file.write(f"{char}: {get_letter_code(final_root, char)} \n")
 
     # encode the input text message
-    with to_encode_file.open('r') as encode_input, encode_res_file.open('w') as encode_output:
+    with to_encode_file.open('r', encoding='utf-8') as encode_input, encode_res_file.open('w', encoding='utf-8') as \
+            encode_output:
 
         for line in encode_input:
             encode_res = ''
