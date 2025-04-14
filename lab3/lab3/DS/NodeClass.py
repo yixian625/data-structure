@@ -4,7 +4,7 @@ class TreeNode:
 
     def __init__(self, char, freq):
         self.item = char
-        self.freq = freq
+        self.freq = int(freq)
         self.left_child = None
         self.right_child = None
 
