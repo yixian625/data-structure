@@ -79,7 +79,7 @@ def process_file(source_file, to_encode_file, to_decode_file,
                        "A decoded file cannot be generate.")
                 sys.exit(1)
             else:
-                decode_output.write(f"Original Encrypted Message: {line.strip()}")
-                decode_output.write(f"Decoded Message: \n{decode_res}")
+                decode_output.write(f"Original Encrypted Message: {line.strip()} \n")
+                decode_output.write(f"Decoded Message: {decode_res}")
                 decode_output.write("\n\n")
 
