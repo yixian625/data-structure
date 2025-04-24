@@ -25,15 +25,19 @@ class MyTestCase(unittest.TestCase):
 
         self.assertEqual(original_array, sorted_array)
         self.assertEqual('Quick Sort with Insertion Under 100', sort_instance.sorting_method)
-    #
-    # def test_median_of_three(self):
-    #
-    #     original_array = list(range(1, 201))
-    #     array = original_array.copy()
-    #     random.shuffle(array)
-    #
-    #     sort_instance = QuickSort(array)
-    #     sort_instance.quick_sort_median_of_three(array)
+
+    def test_median_of_three(self):
+
+        original_array = list(range(1, 201))
+        array = original_array.copy()
+        random.shuffle(array)
+
+        sort_instance = QuickSort(array)
+        sort_instance.quick_sort_median_of_three()
+        sorted_array = sort_instance.array
+
+        self.assertEqual(original_array, sorted_array)
+        self.assertEqual('Quick Sort Median of Three Pivot', sort_instance.sorting_method)
 
 
 if __name__ == '__main__':

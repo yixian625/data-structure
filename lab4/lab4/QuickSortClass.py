@@ -4,12 +4,16 @@
 class QuickSort:
 
     def __init__(self, array):
-        self.array = array
+        self.array = array.copy()
         self.sorting_method = None
 
-    def basic_quick_sort(self):
-        QuickSort.recursive_sort(self.array, 0, len(self.array)-1)
+    def quick_sort_basic(self):
+        QuickSort.recursive_sort(self.array, 0, len(self.array)-1, pivot_method='first')
         self.sorting_method = 'Basic Quick Sort'
+
+    def quick_sort_median_of_three(self):
+        QuickSort.recursive_sort(self.array, 0, len(self.array)-1, pivot_method='median_of_three')
+        self.sorting_method = 'Quick Sort Median of Three Pivot'
 
     def quick_sort_insertion_base50(self):
         QuickSort.recursive_with_insertion(self.array, 0, len(self.array)-1, 50)
@@ -20,14 +24,14 @@ class QuickSort:
         self.sorting_method = 'Quick Sort with Insertion Under 100'
 
 
-
     @staticmethod
-    def recursive_sort(array, start, end):
+    def recursive_sort(array, start, end, pivot_method='first'):
         """
         recursively sort the array
         :param array:
         :param start:
         :param end:
+        :param pivot_method
         :return:
         """
         size = end - start + 1
@@ -41,25 +45,38 @@ class QuickSort:
                 array[start], array[end] = array[end], array[start]
                 return
         else:
-            pivot_index = QuickSort.partition(array, start, end)
+            pivot_index = QuickSort.partition(array, start, end, pivot_method=pivot_method)
             # sort left partition
-            QuickSort.recursive_sort(array, start, pivot_index - 1)
+            QuickSort.recursive_sort(array, start, pivot_index - 1, pivot_method=pivot_method)
             # sort right partition
-            QuickSort.recursive_sort(array, pivot_index + 1, end)
+            QuickSort.recursive_sort(array, pivot_index + 1, end, pivot_method=pivot_method)
 
     @staticmethod
-    def partition(array, start, end):
+    def partition(array, start, end, pivot_method='first'):
         """
         :param array:
         :param start:
         :param end:
+        :param pivot_method
         :return: return the pivot index. Make in-place changes to array.
         """
-        # choose the pivot accordingly
-        # use the first item
-        pivot = array[start]
         i = start   # down pointer
         j = end  # up pointer
+
+        # choose the pivot accordingly
+        # use the first item
+        if pivot_method == 'first':
+            pivot = array[start]
+        else:
+            # use median of three
+            mid = i + (j - i) // 2
+            candidates = [array[i], array[j], array[mid]]
+            QuickSort.insertion_sort(candidates)
+            pivot = candidates[1]
+            # swap the pivot to the beginning of the array for
+            # the partition logic to work
+            pivot_index = array.index(pivot)
+            array[start], array[pivot_index] = array[pivot_index], array[start]
 
         while i < j:
             # copy smaller items to left
@@ -82,6 +99,11 @@ class QuickSort:
 
     @staticmethod
     def insertion_sort(array):
+        """
+        code inspired by: https://www.geeksforgeeks.org/insertion-sort-algorithm/
+        :param array:
+        :return:
+        """
 
         for i in range(1, len(array)):
             item = array[i]  # item to sort
