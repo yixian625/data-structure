@@ -8,7 +8,7 @@ class MyTestCase(unittest.TestCase):
     def test_recursive_sort(self):
 
         array = [2, 4, 1, 7, 9]
-        QuickSort.recursive_sort(array, 0, 4)
+        QuickSort._recursive_sort(array, 0, 4)
 
         self.assertEqual(array, [1, 2, 4, 7, 9])
 
