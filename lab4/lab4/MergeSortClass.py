@@ -6,7 +6,10 @@ class MergeSort:
     def __init__(self):
         # turn the array containing data to an array of nodes with next pointers (initiated as None)
         self.array = []
+        self.sorted_head = None
         self.num_compare = 0
+        self.num_swap = 0
+        self.sorting_method = None
 
     def __sizeof__(self):
         return len(self.array)
@@ -20,7 +23,9 @@ class MergeSort:
         to avoid taking extra space
         :return: the head node of the sorted list
         """
+        self.sorting_method = 'BasicMergeSort'
         head = self._recursive_merge_sort_basic(0, len(self.array)-1)
+        self.sorted_head = head
         return head
 
     def merge_sort_natural(self):
@@ -28,8 +33,10 @@ class MergeSort:
 
         :return:
         """
+        self.sorting_method = 'NaturalMergeSort'
         subfiles_pointers = self._get_natural_subfiles()
         head = self._recursive_natural_merge_sort(subfiles_pointers)
+        self.sorted_head = head
         return head
 
     def _recursive_natural_merge_sort(self, start_pointer_list):
@@ -61,10 +68,11 @@ class MergeSort:
 
         i = 0
         while i < len(self.array)-1:
-            self.num_compare += 1
             # advance the pointer until the item is smaller than the current item
             while i < len(self.array)-1 and self.array[i].data <= self.array[i+1].data:
+                self.num_compare += 1
                 self.array[i].next = self.array[i+1] # set up the next pointers for nodes within each subfile
+                self.num_swap += 1
                 i += 1
             # move pointer one move place to the right to start the new subfile
             if i != len(self.array)-1:
@@ -106,9 +114,12 @@ class MergeSort:
             if head1.data < head2.data:
                 tail.next = head1
                 head1 = head1.next
+                self.num_swap += 1
             else:
                 tail.next = head2
                 head2 = head2.next
+                self.num_swap += 1
+
             tail = tail.next
 
         # Attach the remainder

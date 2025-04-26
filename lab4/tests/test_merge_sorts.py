@@ -16,10 +16,10 @@ class MyTestCase(unittest.TestCase):
         for i in self.items:
             merge_instance.add_node(i)
 
-        sorted_head = merge_instance.merge_sort_basic()
+        merge_instance.merge_sort_basic()
 
         sorted_list = []
-        cur_node = sorted_head
+        cur_node = merge_instance.sorted_head
         while cur_node is not None:
             sorted_list.append(cur_node.data)
             cur_node = cur_node.next
@@ -44,10 +44,10 @@ class MyTestCase(unittest.TestCase):
         for i in self.items:
             merge_array_instance.add_node(i)
 
-        sorted_head = merge_array_instance.merge_sort_natural()
+        merge_array_instance.merge_sort_natural()
 
         sorted_list = []
-        cur_node = sorted_head
+        cur_node = merge_array_instance.sorted_head
         while cur_node is not None:
             sorted_list.append(cur_node.data)
             cur_node = cur_node.next

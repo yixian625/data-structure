@@ -17,19 +17,19 @@ class QuickSort:
 
     def quick_sort_basic(self):
         self._recursive_sort(self.array, 0, len(self.array)-1, pivot_method='first')
-        self.sorting_method = 'Basic Quick Sort'
+        self.sorting_method = 'BasicQuickSort'
 
     def quick_sort_median_of_three(self):
         self._recursive_sort(self.array, 0, len(self.array)-1, pivot_method='median_of_three')
-        self.sorting_method = 'Quick Sort Median of Three Pivot'
+        self.sorting_method = 'QuickSortMedianOfThreePivot'
 
     def quick_sort_insertion_base50(self):
         self._recursive_with_insertion(self.array, 0, len(self.array)-1, 50)
-        self.sorting_method = 'Quick Sort with Insertion Under 50'
+        self.sorting_method = 'QuickSortWithInsertionUnder50'
 
     def quick_sort_insertion_base100(self):
         self._recursive_with_insertion(self.array, 0, len(self.array)-1, 100)
-        self.sorting_method = 'Quick Sort with Insertion Under 100'
+        self.sorting_method = 'QuickSortWithInsertionUnder100'
 
     def _recursive_sort(self, array, start, end, pivot_method='first'):
         """
@@ -109,14 +109,16 @@ class QuickSort:
         # return left and right partitions
         return i
 
-    def _insertion_sort(self, array):
+    def _insertion_sort(self, array, start=0, end=None):
         """
         code inspired by: https://www.geeksforgeeks.org/insertion-sort-algorithm/
         :param array:
         :return:
         """
+        if end is None:
+            end = len(array) - 1
 
-        for i in range(1, len(array)):
+        for i in range(start+1, end+1):
             item = array[i]  # item to sort
             j = i - 1  # compare with the item on its left
 
@@ -126,7 +128,7 @@ class QuickSort:
                 array[j+1] = array[j]
                 self.num_swap += 1
                 # move the left item pointer to another position to the left
-                j -= i
+                j -= 1
 
             # place the item when its left is no longer bigger than it
             array[j + 1] = item
@@ -150,9 +152,9 @@ class QuickSort:
         else:
             pivot_index = self._partition(array, start, end)
             # sort left _partition
-            self._recursive_sort(array, start, pivot_index - 1)
+            self._recursive_with_insertion(array, start, pivot_index - 1, min_base_size)
             # sort right _partition
-            self._recursive_sort(array, pivot_index + 1, end)
+            self._recursive_with_insertion(array, pivot_index + 1, end, min_base_size)
 
 
 

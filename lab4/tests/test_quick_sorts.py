@@ -30,7 +30,7 @@ class MyTestCase(unittest.TestCase):
         sorted_array = sort_instance.array
 
         self.assertEqual(original_array, sorted_array)
-        self.assertEqual('Quick Sort with Insertion Under 100', sort_instance.sorting_method)
+        self.assertEqual('QuickSortWithInsertionUnder100', sort_instance.sorting_method)
 
     def test_median_of_three(self):
 
@@ -45,7 +45,7 @@ class MyTestCase(unittest.TestCase):
         sorted_array = sort_instance.array
 
         self.assertEqual(original_array, sorted_array)
-        self.assertEqual('Quick Sort Median of Three Pivot', sort_instance.sorting_method)
+        self.assertEqual('QuickSortMedianOfThreePivot', sort_instance.sorting_method)
 
 
 if __name__ == '__main__':
