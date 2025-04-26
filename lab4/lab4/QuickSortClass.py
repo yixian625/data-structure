@@ -96,9 +96,9 @@ class QuickSort:
             self.num_swap += 1
 
         while i < j:
+            self.num_compare += 1
             # copy smaller items to left
             while array[j] >= pivot and i < j:
-                self.num_compare += 1
                 j -= 1
             if i < j:
                 array[i] = array[j]
@@ -106,7 +106,6 @@ class QuickSort:
 
             # copy larger items to right
             while array[i] < pivot and i < j:
-                self.num_compare += 1
                 i += 1
             if i < j:
                 array[j] = array[i]
@@ -130,9 +129,9 @@ class QuickSort:
         for i in range(start+1, end+1):
             item = array[i]  # item to sort
             j = i - 1  # compare with the item on its left
+            self.num_compare += 1
 
             while j >= 0 and item < array[j]:
-                self.num_compare += 1
                 # move the left item to right
                 array[j+1] = array[j]
                 self.num_swap += 1

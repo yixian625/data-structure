@@ -74,9 +74,9 @@ class MergeSort:
 
         i = 0
         while i < len(self.array)-1:
+            self.num_compare += 1
             # advance the pointer until the item is smaller than the current item
             while i < len(self.array)-1 and self.array[i].data <= self.array[i+1].data:
-                self.num_compare += 1
                 self.array[i].next = self.array[i+1] # set up the next pointers for nodes within each subfile
                 self.num_swap += 1
                 i += 1
