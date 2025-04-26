@@ -12,9 +12,11 @@ class MyTestCase(unittest.TestCase):
 
     def test_recur_merge_basic(self):
 
-        array = [Node(i) for i in self.items]
+        merge_instance = MergeSort()
+        for i in self.items:
+            merge_instance.add_node(i)
 
-        sorted_head = MergeSort._recursive_merge_sort_basic(array, 0, len(array)-1)
+        sorted_head = merge_instance.merge_sort_basic()
 
         sorted_list = []
         cur_node = sorted_head
@@ -27,8 +29,12 @@ class MyTestCase(unittest.TestCase):
     def test_natural_merge_subfile_creation(self):
         items = [0, 1, 5, 2, 10, 9, 11, 7, 99, 20]
         expected_pointers = [0, 3, 5, 7, 9]
-        node_array = [Node(i) for i in items]
-        returned_pointers = MergeSort._get_natural_subfiles(node_array)
+
+        merge_instance = MergeSort()
+        for i in items:
+            merge_instance.add_node(i)
+
+        returned_pointers = merge_instance._get_natural_subfiles()
 
         self.assertEqual(expected_pointers, returned_pointers)
 
