@@ -1,10 +1,11 @@
 # module containing all the quick sort methods
-
+import time
 
 class QuickSort:
 
     def __init__(self):
         self.array = []
+        self.time_cost = 0
         self.sorting_method = None
         self.num_compare = 0
         self.num_swap = 0
@@ -16,20 +17,28 @@ class QuickSort:
         self.array.append(value)
 
     def quick_sort_basic(self):
+        start = time.time()
         self._recursive_sort(self.array, 0, len(self.array)-1, pivot_method='first')
         self.sorting_method = 'BasicQuickSort'
+        self.time_cost = time.time() - start
 
     def quick_sort_median_of_three(self):
+        start = time.time()
         self._recursive_sort(self.array, 0, len(self.array)-1, pivot_method='median_of_three')
         self.sorting_method = 'QuickSortMedianOfThreePivot'
+        self.time_cost = time.time() - start
 
     def quick_sort_insertion_base50(self):
+        start = time.time()
         self._recursive_with_insertion(self.array, 0, len(self.array)-1, 50)
         self.sorting_method = 'QuickSortWithInsertionUnder50'
+        self.time_cost = time.time() - start
 
     def quick_sort_insertion_base100(self):
+        start = time.time()
         self._recursive_with_insertion(self.array, 0, len(self.array)-1, 100)
         self.sorting_method = 'QuickSortWithInsertionUnder100'
+        self.time_cost = time.time() - start
 
     def _recursive_sort(self, array, start, end, pivot_method='first'):
         """

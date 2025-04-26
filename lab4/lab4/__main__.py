@@ -6,34 +6,60 @@
 from pathlib import Path
 import argparse
 import sys
-#
-# from lab4.lab4 import process_file
-#
+
+from lab4.lab4 import process_file
+
 # # Argument parser is an amazing tool. It's worth mastering
-# arg_parser = argparse.ArgumentParser()
-# arg_parser.add_argument("source_file", type=str, help="Pathname for Freq Table or Source Text to Build Freq Table From")
-# arg_parser.add_argument("to_encode_file", type=str, help="File Pathname for Texts to Encode")
-# arg_parser.add_argument("to_decode_file", type=str, help='ile Pathname for Encrypted Message to Decode')
-# arg_parser.add_argument("tree_map", type=str, help="Huffman Encoding Tree Map File Pathname")
-# arg_parser.add_argument("encode_result", type=str, help="File Pathname to Store the Encoded Results")
-# arg_parser.add_argument("decode_result", type=str, help="File Pathname to Store the Decoded Results")
-#
-# args = arg_parser.parse_args()
+arg_parser = argparse.ArgumentParser()
+arg_parser.add_argument("input_folder", type=str, help="Pathname for Freq Table or Source Text to Build Freq Table From")
+arg_parser.add_argument("tracking_file", type=str, help="Pathname for File Storing the Number of Comprisons and Swaps")
+arg_parser.add_argument("--returnSorted", choices=['yes', 'no'], default='no',
+                        help="Whether to return the sorted results or not. Default to no. If yes, the outputs will be automatically saved \
+                             with the name of the sorting algorithm in file name")
+arg_parser.add_argument("--upMaxRecur", choices=['yes', 'no'], default='no',
+                        help="Whether to set the recursion limit of python to 10,050 to allow all methods to run successfully.\
+                         Default to no. Use with caution. The limit will be automatically reset after the runs.")
+
+args = arg_parser.parse_args()
 #
 # # pathlib.Path is also a fantastic built in tool and has a lot of great
 # # features. Please look it up! I promise it's worth it.
-# source_file_path = Path(args.source_file)
-# to_encode_path = Path(args.to_encode_file)
-# to_decode_path = Path(args.to_decode_file)
-# tree_map_path = Path(args.tree_map)
-# encode_res_path = Path(args.encode_result)
-# decode_res_path = Path(args.decode_result)
-#
-# if not source_file_path.exists():
-#     print(f"No {args.source_file} exists. Please choose another input file.")
-#     sys.exit(1)
-#
-# process_file(source_file=source_file_path, to_encode_file=to_encode_path, to_decode_file= to_decode_path,
-#              tree_map_file=tree_map_path, encode_res_file=encode_res_path, decode_res_file=decode_res_path)
+input_folder_path = Path(args.input_folder)
+tracking_file_path = Path(args.tracking_file)
 
+if not input_folder_path.exists():
+    print(f"No {args.input_folder_path} exists. Please double check the folder path.")
+    sys.exit(1)
 
+# Loop through all .txt files
+txt_files = list(input_folder_path.glob("*.txt"))
+if not txt_files:
+    print(f"No .txt files found in {input_folder_path}. Please make sure your inputs are all .txt files")
+    sys.exit(1)
+
+# up the python recursion max limit if wanted
+original_recur_max = sys.getrecursionlimit()
+if args.upMaxRecur == 'yes':
+    sys.setrecursionlimit(10050)
+
+# run all sorting on all the .txt files in the folder
+tracker = []
+
+save_sorted = True if args.returnSorted == 'yes' else False
+for txt_file in txt_files:
+    try:
+        input_size, file_order, sort_type, time_cost, num_compares, num_swaps = process_file(txt_file, return_sorted = save_sorted)
+        tracker.append((input_size, file_order, sort_type, time_cost, num_compares, num_swaps))
+    except Exception as e:
+        print(f'Program error encountered: {e} for file: {txt_file}')
+        print(f'Skipping this input.')
+        pass
+
+with open(tracking_file_path, 'w') as tracking:
+    tracking.write("Input Size | Input Order | Sort Type| Time (ms) | Num Comparisons | Num Swaps\n")
+    for input_size, file_order, sort_type, time_cost, num_compares, num_swaps in tracker:
+        for i in range(0, len(sort_type)):
+            tracking.write(f"{input_size} | {file_order} | {sort_type[i]} | {time_cost[i]*1000: .2f} | {num_compares[i]} | {num_swaps[i]}\n")
+
+# reset the recursion limit to original
+sys.setrecursionlimit(original_recur_max)

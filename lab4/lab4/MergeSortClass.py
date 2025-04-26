@@ -1,5 +1,6 @@
 # module containing the natural merge sort class
 from lab4.NodeClass import Node
+import time
 
 class MergeSort:
 
@@ -10,6 +11,7 @@ class MergeSort:
         self.num_compare = 0
         self.num_swap = 0
         self.sorting_method = None
+        self.time_cost = 0
 
     def __sizeof__(self):
         return len(self.array)
@@ -24,7 +26,9 @@ class MergeSort:
         :return: the head node of the sorted list
         """
         self.sorting_method = 'BasicMergeSort'
+        start_time = time.time()
         head = self._recursive_merge_sort_basic(0, len(self.array)-1)
+        self.time_cost = time.time() - start_time
         self.sorted_head = head
         return head
 
@@ -34,8 +38,10 @@ class MergeSort:
         :return:
         """
         self.sorting_method = 'NaturalMergeSort'
+        start_time = time.time()
         subfiles_pointers = self._get_natural_subfiles()
         head = self._recursive_natural_merge_sort(subfiles_pointers)
+        self.time_cost = time.time() - start_time
         self.sorted_head = head
         return head
 

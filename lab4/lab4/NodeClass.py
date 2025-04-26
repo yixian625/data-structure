@@ -7,4 +7,7 @@ class Node:
         self.data = value
         self.next = None
 
+    def __repr__(self):
+        return f'Node: data {self.data}, pointing to {self.next}'
+
 
