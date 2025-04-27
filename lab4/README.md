@@ -30,10 +30,10 @@ if any of your input files contains more than 1000 numbers, you will need to set
 The sorting methods are implemented with recursions and files with size over 1000 will run into the max recursion error. 
 
 When using the flag, the package will temporarily set the max limit for recursion in your Python environment to 10,050, which will allow the package to run file size up to 10,000 input number.
-**Please note that this risk crushing your Python and computer. Please proceed with caution.** 
+**Please note that this risks crushing your Python and potentially your computer. Please proceed with caution.** 
 
 If the flag is not set (left as default), the package will try
-to run all input files, but will return None for performance of any sorting method that failed due to max recurssion erorr.
+to run all input files, but will return None for performance of any sorting method that failed due to max recursion error.
 
 ## Output files
 
