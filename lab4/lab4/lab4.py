@@ -1,15 +1,19 @@
+# main function to process the input file, using all the sorting methods available
+
 from lab4.QuickSortClass import QuickSort
 from lab4.MergeSortClass import MergeSort
 from lab4.utils.input_type_detector import detect_order
 import time
 
+
 def process_file(input_file, return_sorted = False):
     """
-
-    :param input_file:
-    :param track_file:
-    :param sorted_file:
-    :return:
+    Takes the input file pathname, sort all inputs using each of the sorting methods,
+    returns the performance of each sorting methods (i.e, time cost, number of comparisons,
+    and number of swaps, and optionally store the sorted result into files.
+    :param input_file: file pathname for the input .txt
+    :param sorted_file: boolean, whether to save the output files for each sorting method or not. Default to False.
+    :return: input specs and performance metrics of all sorting method
     """
     input_name = input_file.stem
 

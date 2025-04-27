@@ -1,6 +1,7 @@
 # module containing all the quick sort methods
 import time
 
+
 class QuickSort:
 
     def __init__(self):
@@ -14,27 +15,48 @@ class QuickSort:
         return len(self.array)
 
     def add_item(self, value):
+        """
+        Adds a new value to the array.
+        :param value: the new value to be added
+        :return: None. Self.array is updated with the new value added.
+        """
         self.array.append(value)
 
     def quick_sort_basic(self):
+        """
+        Uses basic quick sort to sort the array.
+        :return: None. Self.array is updated with the new value added.
+        """
         start = time.time()
         self._recursive_sort(self.array, 0, len(self.array)-1, pivot_method='first')
         self.sorting_method = 'BasicQuickSort'
         self.time_cost = time.time() - start
 
     def quick_sort_median_of_three(self):
+        """
+        Uses the median-of-three as the pivot in quick sort to sort the array.
+        :return: None. Self.array is updated with the new value added.
+        """
         start = time.time()
         self._recursive_sort(self.array, 0, len(self.array)-1, pivot_method='median_of_three')
         self.sorting_method = 'QuickSortMedianOfThreePivot'
         self.time_cost = time.time() - start
 
     def quick_sort_insertion_base50(self):
+        """
+        Uses quick sort until the subarray has 50 or fewer items, then uses insertion sort to sort it.
+        :return: None. Self.array is updated with the new value added.
+        """
         start = time.time()
         self._recursive_with_insertion(self.array, 0, len(self.array)-1, 50)
         self.sorting_method = 'QuickSortWithInsertionUnder50'
         self.time_cost = time.time() - start
 
     def quick_sort_insertion_base100(self):
+        """
+        Uses quick sort until the subarray has 100 or fewer items, then uses insertion sort to sort it.
+        :return: None. Self.array is updated with the new value added.
+        """
         start = time.time()
         self._recursive_with_insertion(self.array, 0, len(self.array)-1, 100)
         self.sorting_method = 'QuickSortWithInsertionUnder100'
@@ -42,12 +64,12 @@ class QuickSort:
 
     def _recursive_sort(self, array, start, end, pivot_method='first'):
         """
-        recursively sort the array
-        :param array:
-        :param start:
-        :param end:
-        :param pivot_method
-        :return:
+        Recursively sort the array using quick sort until the base cases where the sub-array contains 1 or 2 items.
+        :param array: the array to be sorted
+        :param start: the start index for items to be sorted in the array
+        :param end: the end index for items to be sorted in the array
+        :param pivot_method: whether to use the 1st item as pivot (default) or the median-of-three.
+        :return: None. The array is updated with the items sorted.
         """
         size = end - start + 1
 
@@ -70,10 +92,11 @@ class QuickSort:
 
     def _partition(self, array, start, end, pivot_method='first'):
         """
-        :param array:
-        :param start:
-        :param end:
-        :param pivot_method
+        Recursively partition the part of the array from the "star" index to the "end" index.
+        :param array: the array to be sorted
+        :param start: the start index for items to be sorted in the array
+        :param end: the end index for items to be sorted in the array
+        :param pivot_method: whether to use the 1st item as pivot (default) or the median-of-three.
         :return: return the pivot index. Make in-place changes to array.
         """
         i = start   # down pointer
@@ -119,9 +142,10 @@ class QuickSort:
 
     def _insertion_sort(self, array, start=0, end=None):
         """
+        Performs insertion sort on an array.
         code inspired by: https://www.geeksforgeeks.org/insertion-sort-algorithm/
-        :param array:
-        :return:
+        :param array: the array to be sorted.
+        :return: None. The array is updated to the sorted order.
         """
         if end is None:
             end = len(array) - 1
@@ -143,12 +167,13 @@ class QuickSort:
 
     def _recursive_with_insertion(self, array, start, end, min_base_size):
         """
-
-        :param array:
-        :param start:
-        :param end:
-        :param min_base_size:
-        :return:
+        Recursively uses quick sort to sort part of an array given the start and end index of the items to be sorted.
+        Once the sub-array gets under the minimum base size, switches over to use insertion sort to finish the sorting.
+        :param array: the array to be sorted
+        :param start: the start index for items to be sorted in the array
+        :param end: the end index for items to be sorted in the array
+        :param min_base_size: the size threshold for the sub-array to be sorted by insertion sort.
+        :return:  None. The array is updated to the sorted items.
         """
 
         size = end - start + 1

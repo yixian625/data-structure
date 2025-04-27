@@ -1,10 +1,11 @@
 from lab4.MergeSortClass import MergeSort
 
+
 def detect_order(input_file):
     """
     Detectors whether the inputs are in ascending, descending, or random orders
-    :param input_file:
-    :return:
+    :param input_file: the input .txt file
+    :return: whether the file contains inputs in ascending, descending, or random order.
     """
 
     num_list = []

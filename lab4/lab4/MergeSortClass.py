@@ -2,6 +2,7 @@
 from lab4.NodeClass import Node
 import time
 
+
 class MergeSort:
 
     def __init__(self):
@@ -34,8 +35,8 @@ class MergeSort:
 
     def merge_sort_natural(self):
         """
-
-        :return:
+        Uses natural merge sort to sort the array.
+        :return: the head node of the sorted list.
         """
         self.sorting_method = 'NaturalMergeSort'
         start_time = time.time()
@@ -47,10 +48,9 @@ class MergeSort:
 
     def _recursive_natural_merge_sort(self, start_pointer_list):
         """
-
-        :param self.array:
-        :param start_pointer_list:
-        :return:
+        Recursively divides the sub array into two halves and perform merge on the two halves.
+        :param start_pointer_list: a list of indices indicating where each subfile starts
+        :return: the head node of the sorted list
         """
         # if there's only one subfile, return it directly
         if len(start_pointer_list) == 1:
@@ -66,7 +66,6 @@ class MergeSort:
 
     def _get_natural_subfiles(self):
         """
-        :param self.array:
         :return: a list of indices pointing to the start of each subfile in the array
         """
 
@@ -89,10 +88,10 @@ class MergeSort:
 
     def _recursive_merge_sort_basic(self, array_start, array_end):
         """
-
-        :param array_start:
-        :param array_end:
-        :return:
+        Recursively divides the array by halves and merges the two halves in a sorted way
+        :param array_start: the index for the start item of the array to be sorted
+        :param array_end: the index for the end item of the array to be sorted
+        :return: the head node of the sorted list
         """
         if array_start == array_end:
             return self.array[array_start]  # only one element
@@ -107,9 +106,10 @@ class MergeSort:
 
     def _linked_merge(self, head1, head2):
         """
+        Merges two linked lists in a sorted manner given the head nodes.
         code inspired by: https://stackoverflow.com/questions/7685/merge-sort-a-linked-list
-        :param head1:
-        :param head2:
+        :param head1: the head node of the first linked list
+        :param head2: the head node of the second linked list
         :return:
         """
         dummy = Node(0)  # dummy head; keep track of array head

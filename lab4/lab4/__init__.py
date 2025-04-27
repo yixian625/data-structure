@@ -7,4 +7,4 @@
 # Here we're very simply making it easier for other scripts to access the
 # process_files function. Note: other scripts and functions are still
 # accessible
-# from lab4.lab4 import process_file
+from lab4.lab4 import process_file
