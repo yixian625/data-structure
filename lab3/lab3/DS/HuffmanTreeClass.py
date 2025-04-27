@@ -49,9 +49,6 @@ class HuffmanTree:
                 raise ValueError(f"Your frequency table is missing at least one alphabet. Please fix it and"
                                  f"try again")
 
-
-                    # sys.exit(1)
-
         # build the freq table if the input is a source text
         elif source_file_type == "Text":
             freq_array = create_freq_table(source)
@@ -62,7 +59,6 @@ class HuffmanTree:
                 if freq_array[i] == 0:
                     raise ValueError(f"Your source text doesn't contain all letters. "
                           f"There is no {chr(i+65)} in the file. Please change a source.")
-                    # sys.exit(1)
                 else:
                     node = TreeNode(char=chr(i+65), freq=freq_array[i])
                     priority_array.insert(node)
